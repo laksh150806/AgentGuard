@@ -5,7 +5,11 @@ The user has a zero-spend constraint. Preserve this across future work.
 ## Current version
 
 - Python standard library only; no runtime package installation or model download.
-- Tests, demo and checks run locally without network requests.
+- Scripted demo and policy checks run without network requests. Transport tests
+  contact a temporary loopback HTTP server with synthetic responses; no internet is used.
+- Optional inference uses an already installed local Ollama model. It contacts
+  only loopback, verifies local metadata and rejects remote-backed models.
+- Disable cloud features on the Ollama server with `OLLAMA_NO_CLOUD=1`; see LOCAL_MODEL.md.
 - All data is synthetic and all refunds are simulated.
 - No paid APIs, cloud services, hosted runners, databases or automated schedules.
 - No GitHub Actions workflows are enabled. Checks run before a milestone push.

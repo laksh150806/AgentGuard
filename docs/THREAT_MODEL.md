@@ -41,5 +41,8 @@ three tool interfaces, not Python execution or direct references to stores.
 - No claim is made about denial-of-service, malicious code execution, model
   compromise, database attacks, production readiness, or universal injection resistance.
 - The live-retrieval demo is a versioned in-memory update, not a streaming RAG
-  integration. A connector and actual model loop remain future work.
+  integration. The model loop is implemented separately; real-model injection
+  experiments and a streaming retrieval connector remain future work.
+- The local inference server is trusted. AgentGuard rejects remote model metadata
+  but cannot prove that a malicious or reconfigured server performs inference locally.
 - `enforce=False` is intentionally insecure and is only for isolated synthetic experiments.

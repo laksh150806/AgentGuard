@@ -6,11 +6,12 @@ AgentGuard investigates how much unauthorized agent behavior can be prevented
 without blocking legitimate work, including when retrieved content changes
 during a session.
 
-**Current status: foundation, not a finished AI agent.** This release has a
-synthetic support environment, enforcement engine, scripted experiments and
-automated tests. It has no LLM, prompt-only baseline, dashboard or AgentDojo
-integration yet. Scripted results must not be described as real AI security
-benchmark results.
+**Current status: local-model integration implemented; real-model validation pending.**
+This release has a synthetic support environment, enforcement engine, scripted
+experiments, an Ollama adapter, a bounded agent loop, and automated tests.
+There is no prompt-only baseline, dashboard or AgentDojo integration yet.
+No real model was installed in the development environment for this milestone.
+Automated tests use synthetic model responses; they are not AI benchmark results.
 
 ## Run for free
 
@@ -34,6 +35,26 @@ python scripts/run.py check > artifacts/policy-checks.json
 Generated reports are ignored by Git. Model experiments will be a separate,
 explicit step. The project enables no paid services or hosted CI workflows.
 
+## Connect a free local model
+
+After installing Ollama and a local model with tool-call support, replace
+`YOUR_LOCAL_MODEL` below with its exact name from `ollama list`:
+
+```bash
+python scripts/run.py doctor --model YOUR_LOCAL_MODEL
+python scripts/run.py run --model YOUR_LOCAL_MODEL --task "Request a simulated refund of 500 paise for order-demo using request_id demo-1."
+python scripts/run.py smoke --model YOUR_LOCAL_MODEL
+```
+
+`doctor` checks installed-model metadata without generating text. `run` performs
+local inference and returns tool decisions and the final ledger. `smoke` checks
+three legitimate tool objectives with a fresh sandbox per task. A final answer
+does not itself establish task success.
+
+Only `127.0.0.1` is supported. Remote-backed models and redirects are rejected;
+there is no automatic download or paid fallback. See the [local setup guide](docs/LOCAL_MODEL.md)
+for cloud-disable settings, resource limits and troubleshooting.
+
 ## What the demo proves
 
 1. Retrieve version 1 of a public refund guide.
@@ -55,7 +76,7 @@ Host-supplied session + policy ────────────────�
                                                 v
 Untrusted documents -> agent proposal -> validation + authorization -> tool
                            ^                         |
-                  scripted in v0.1                  v
+             local model or labeled replay          v
                                                audit event
 ```
 
@@ -96,6 +117,9 @@ The included cases are development smoke checks, not a held-out dataset.
 - `src/agentguard/core.py`: trusted policy, state, dispatch and audit events.
 - `src/agentguard/experiments.py`: scripted demo and evaluation scaffolding.
 - `src/agentguard/cli.py`: JSON command-line interface.
+- `src/agentguard/ollama.py`: local-only transport and installed-model checks.
+- `src/agentguard/agent.py`: bounded tool loop and execution traces.
+- `src/agentguard/smoke.py`: executed-outcome checks for three legitimate tasks.
 - `tests/`: authorization, concurrency, replay, data-isolation and CLI tests.
 - [Threat model](docs/THREAT_MODEL.md): assumptions and uncovered risks.
 - [Evaluation plan](docs/EVALUATION.md): controls, metrics and public benchmarks.

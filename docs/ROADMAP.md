@@ -21,14 +21,18 @@
 - [x] Versioned document update simulation.
 - [x] Scripted comparison with explicit non-benchmark labeling.
 - [x] Local automated tests and documentation.
+- [x] Local-only Ollama adapter with installed-model checks and no paid fallback.
+- [x] Bounded agent loop, tool traces and legitimate-task smoke checks.
+- [ ] Real-model legitimate task validation (no Ollama/model installed in development workspace).
 - [x] GitHub destination accessible and local origin configured.
 - [ ] Related-work review completed (links are a reading list, not a completed survey).
 
 ## Immediate next milestone
 
 Establish available laptop RAM/GPU and choose a free local model that can handle
-tool calls. Implement a local-only adapter, turn limit and context budget. Prove
-legitimate task competence before investing in adversarial experiments.
+tool calls. The adapter, turn limit and history budget are implemented. Run the
+documented doctor and smoke commands, then establish legitimate task competence
+before investing in adversarial experiments.
 
 No paid APIs, GPU rentals, hosted database or deployment subscription is needed
 for the current foundation. Check hackathon rules before reusing prebuilt work.

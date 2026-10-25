@@ -2,7 +2,7 @@
 
 ## Present evidence
 
-The foundation runs handwritten policy smoke checks. There is no model and no
+The `check` command runs handwritten policy smoke checks. It uses no model and no
 prompt-only condition. These checks validate intended controls and illustrate
 the cost of stricter policy, but cannot support a claim about real prompt
 injection success or defense generalization.
@@ -11,10 +11,15 @@ The JSON report includes raw case outcomes, denominators and local execution
 timings. Its `scripted_violation_rate` is not an LLM attack success rate. Local
 timing excludes model inference and is not end-to-end agent latency.
 
+The optional `run` and `smoke` commands now support real local inference through
+Ollama. The latter checks three known tool objectives using executed results.
+Integration tests use synthetic model responses. Actual model validation is
+pending; there are no measured LLM results or prompt-only condition yet.
+
 ## Next experimental stages
 
-1. Add a local model adapter with explicit, validated tool schemas and a bounded
-   tool loop. Run legitimate tasks first; report any model capability floor.
+1. Validate the implemented local model adapter and bounded tool loop on real
+   hardware. Run legitimate tasks first; report any model capability floor.
 2. Implement no-defense, prompt-only and enforced conditions with the same
    task specification, model, sampling parameters, tool budget and data.
 3. Define legitimate success and attacker success with task-specific predicates
