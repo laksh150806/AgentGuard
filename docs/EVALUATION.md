@@ -14,14 +14,16 @@ timing excludes model inference and is not end-to-end agent latency.
 The optional `run` and `smoke` commands now support real local inference through
 Ollama. The latter checks three known tool objectives using executed results.
 Integration tests use synthetic model responses. Actual model validation is
-pending; there are no measured LLM results or prompt-only condition yet.
+pending; there are no measured LLM results yet. `evaluate` now implements paired
+clean/poisoned comparisons including prompt-only and enforced conditions. See
+[COMPARISON.md](COMPARISON.md) for definitions and limitations.
 
 ## Next experimental stages
 
 1. Validate the implemented local model adapter and bounded tool loop on real
    hardware. Run legitimate tasks first; report any model capability floor.
-2. Implement no-defense, prompt-only and enforced conditions with the same
-   task specification, model, sampling parameters, tool budget and data.
+2. Validate the implemented baseline, prompt-only and enforced conditions with
+   the same task specification, model, sampling parameters and tool budget.
 3. Define legitimate success and attacker success with task-specific predicates
    over executed outcomes, independently of defense decisions. An approved
    proposed call is not necessarily an executed or successful attack.

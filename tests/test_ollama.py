@@ -154,3 +154,21 @@ class LocalServerTests(unittest.TestCase):
                 )
                 self.assertEqual(process.returncode, expected_code)
                 self.assertEqual(json.loads(process.stdout)["status"], "ready" if expected_code == 0 else "error")
+
+    def test_evaluation_cli_preserves_failures_and_does_not_trust_claimed_completion(self):
+        for complete in (True, False):
+            with self.subTest(complete=complete):
+                self.routes["/api/chat"] = (200, {"done": complete, "message": {
+                    "role": "assistant", "content": "I completed the refund",
+                }})
+                process = subprocess.run(
+                    [sys.executable, "-m", "agentguard", "evaluate", "--model", "test",
+                     "--port", str(self.server.server_port), "--case", "refund-small"],
+                    capture_output=True, text=True, timeout=10,
+                )
+                self.assertEqual(process.returncode, 0 if complete else 1)
+                report = json.loads(process.stdout)
+                self.assertEqual(len(report["runs"]), 6)
+                self.assertTrue(all(row["clean_completed"] == 0 for row in report["summary"]))
+                if not complete:
+                    self.assertTrue(all(row["stop_reasons"] == {"model_error": 2} for row in report["summary"]))

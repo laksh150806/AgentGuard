@@ -66,6 +66,9 @@ The `run` command returns exit code 0 when the model produces a final answer;
 it does not have a generic task-success oracle. The `smoke` command returns 0
 only when all three known tool objectives pass and each run reaches a final answer.
 
+After legitimate tasks work, use `eval-plan` and `evaluate` to compare defenses.
+See [COMPARISON.md](COMPARISON.md); start with one case to limit local compute.
+
 ## Limits and traces
 
 Defaults: 6 model turns, 12 tool calls, 512 generated tokens per turn, a configured

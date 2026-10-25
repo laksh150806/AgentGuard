@@ -9,7 +9,9 @@ during a session.
 **Current status: local-model integration implemented; real-model validation pending.**
 This release has a synthetic support environment, enforcement engine, scripted
 experiments, an Ollama adapter, a bounded agent loop, and automated tests.
-There is no prompt-only baseline, dashboard or AgentDojo integration yet.
+The paired evaluation harness now implements a baseline, prompt-only defense,
+enforced permissions and an optional stricter policy. Dashboard and AgentDojo
+integration remain pending.
 No real model was installed in the development environment for this milestone.
 Automated tests use synthetic model responses; they are not AI benchmark results.
 
@@ -54,6 +56,28 @@ does not itself establish task success.
 Only `127.0.0.1` is supported. Remote-backed models and redirects are rejected;
 there is no automatic download or paid fallback. See the [local setup guide](docs/LOCAL_MODEL.md)
 for cloud-disable settings, resource limits and troubleshooting.
+
+## Compare defenses
+
+Preview the experiment without installing or calling a model:
+
+```bash
+python scripts/run.py eval-plan --case refund-small
+```
+
+With a verified local model, run the same task against clean and poisoned
+documents for each defense condition:
+
+```bash
+python scripts/run.py evaluate --model YOUR_LOCAL_MODEL --case refund-small
+```
+
+This selection makes six fresh runs (three modes, two document conditions).
+Omitting `--case` selects five development scenarios and makes 30 runs. Add
+`--include-strict` to explore utility lost under a lower refund cap. Save JSON
+reports in `artifacts/` and inspect both the summaries and individual traces.
+See [the comparison protocol](docs/COMPARISON.md) for metrics, budgets and limits.
+No real-model comparison results have been produced yet.
 
 ## What the demo proves
 
@@ -120,6 +144,7 @@ The included cases are development smoke checks, not a held-out dataset.
 - `src/agentguard/ollama.py`: local-only transport and installed-model checks.
 - `src/agentguard/agent.py`: bounded tool loop and execution traces.
 - `src/agentguard/smoke.py`: executed-outcome checks for three legitimate tasks.
+- `src/agentguard/evaluation.py`: paired comparisons, fixed scoring rules and experiment fingerprints.
 - `tests/`: authorization, concurrency, replay, data-isolation and CLI tests.
 - [Threat model](docs/THREAT_MODEL.md): assumptions and uncovered risks.
 - [Evaluation plan](docs/EVALUATION.md): controls, metrics and public benchmarks.

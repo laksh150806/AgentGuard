@@ -79,14 +79,16 @@ def _message(response: dict) -> tuple[dict, list[dict]]:
 
 def run_agent(client: ChatClient, sandbox: SupportSandbox, task: str, *,
               max_turns: int = 6, max_tool_calls: int = 12,
-              max_history_bytes: int = 12000) -> dict:
+              max_history_bytes: int = 12000, system_prompt: str = SYSTEM_PROMPT) -> dict:
     if not isinstance(task, str) or not task.strip() or len(task) > 4000:
         raise ValueError("Task must contain 1–4000 characters")
     for name, value, upper in (("max_turns", max_turns, 20), ("max_tool_calls", max_tool_calls, 40),
                                ("max_history_bytes", max_history_bytes, 64000)):
         if type(value) is not int or not 1 <= value <= upper:
             raise ValueError(f"{name} must be an integer between 1 and {upper}")
-    messages = [{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": task}]
+    if not isinstance(system_prompt, str) or not system_prompt.strip() or len(system_prompt) > 4000:
+        raise ValueError("Host system prompt must contain 1–4000 characters")
+    messages = [{"role": "system", "content": system_prompt}, {"role": "user", "content": task}]
     tools = tool_definitions()
     steps = []
     responses = []

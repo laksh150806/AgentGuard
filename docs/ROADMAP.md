@@ -23,6 +23,9 @@
 - [x] Local automated tests and documentation.
 - [x] Local-only Ollama adapter with installed-model checks and no paid fallback.
 - [x] Bounded agent loop, tool traces and legitimate-task smoke checks.
+- [x] Paired clean/poisoned development evaluation with baseline, prompt-only,
+  enforced and optional strict conditions; fixed outcome scoring and budget preview.
+- [ ] Actual model comparison results and public benchmark validation.
 - [ ] Real-model legitimate task validation (no Ollama/model installed in development workspace).
 - [x] GitHub destination accessible and local origin configured.
 - [ ] Related-work review completed (links are a reading list, not a completed survey).
