@@ -101,8 +101,9 @@ synthetic sandbox only. Store generated reports in the ignored `artifacts/` fold
 
 Transport tests use an actual loopback HTTP server with fake responses, including
 an end-to-end CLI/tool/ledger check. They cover missing models, remote aliases,
-redirects, malformed/oversized responses and errors. No actual Ollama inference
-has been validated in this workspace; do not claim model accuracy from these tests.
+redirects, malformed/oversized responses and errors. Real Qwen3 1.7B inference has now passed the three-task legitimate smoke check;
+see reports/2026-10-25 for measured artifacts, including the failed AgentDojo
+pilot. Unit tests are not model-accuracy evidence.
 
 Protocol references: [chat API](https://docs.ollama.com/api/chat),
 [installed models API](https://docs.ollama.com/api/tags), and

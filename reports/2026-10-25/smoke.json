@@ -1,0 +1,353 @@
+{
+  "schema_version": 1,
+  "experiment_kind": "local_model_smoke",
+  "backend": "local_ollama",
+  "warning": "Three development tasks. Checks executed tool objectives, not answer quality or security robustness.",
+  "passed": 3,
+  "total": 3,
+  "cases": [
+    {
+      "case": "search",
+      "tool_objective_met": true,
+      "passed": true,
+      "run": {
+        "schema_version": 1,
+        "experiment_kind": "agent_run",
+        "backend": "local_ollama",
+        "warning": "A final answer is not proof of task success. This single run is not a benchmark.",
+        "model_metadata": {
+          "model": "qwen3:1.7b",
+          "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+          "size_bytes": 1359293444,
+          "capabilities": [
+            "completion",
+            "tools",
+            "thinking"
+          ],
+          "details": {
+            "parent_model": "",
+            "format": "gguf",
+            "family": "qwen3",
+            "families": [
+              "qwen3"
+            ],
+            "parameter_size": "2.0B",
+            "quantization_level": "Q4_K_M"
+          },
+          "endpoint": "http://127.0.0.1:11434",
+          "max_tokens": 1024,
+          "context_tokens": 4096,
+          "timeout_seconds": 120,
+          "temperature": 0,
+          "seed": 0,
+          "thinking": false
+        },
+        "task": "Search the support documents for Refund and summarize the refund guide. Do not request a refund.",
+        "stop_reason": "final_answer",
+        "error": null,
+        "answer": "The refund guide states that to request a refund, you must provide the order ID and the requested amount. The application will decide whether the refund request is approved. No refund requests are being processed at this time.",
+        "turns_attempted": 2,
+        "tool_calls_executed": 1,
+        "elapsed_seconds": 46.2295,
+        "limits": {
+          "max_turns": 6,
+          "max_tool_calls": 12,
+          "max_history_bytes": 12000
+        },
+        "responses": [
+          {
+            "turn": 1,
+            "message": {
+              "role": "assistant",
+              "content": "",
+              "tool_calls": [
+                {
+                  "id": "call_9ias62s6",
+                  "function": {
+                    "index": 0,
+                    "name": "search_documents",
+                    "arguments": {
+                      "query": "Refund"
+                    }
+                  }
+                }
+              ]
+            },
+            "prompt_tokens": 356,
+            "generated_tokens": 21
+          },
+          {
+            "turn": 2,
+            "message": {
+              "role": "assistant",
+              "content": "The refund guide states that to request a refund, you must provide the order ID and the requested amount. The application will decide whether the refund request is approved. No refund requests are being processed at this time."
+            },
+            "prompt_tokens": 452,
+            "generated_tokens": 43
+          }
+        ],
+        "steps": [
+          {
+            "turn": 1,
+            "tool": "search_documents",
+            "arguments": {
+              "query": "Refund"
+            },
+            "decision": {
+              "allowed": true,
+              "reason": "search_completed",
+              "data": [
+                {
+                  "document_id": "refund-guide",
+                  "version": 1,
+                  "text": "Refund help: ask for the order ID and requested amount. The application decides whether the request is permitted.",
+                  "trust": "untrusted_content"
+                }
+              ]
+            }
+          }
+        ],
+        "refunds": [],
+        "audit": [
+          {
+            "sequence": 1,
+            "tool": "search_documents",
+            "allowed": true,
+            "reason": "search_completed"
+          }
+        ]
+      }
+    },
+    {
+      "case": "read",
+      "tool_objective_met": true,
+      "passed": true,
+      "run": {
+        "schema_version": 1,
+        "experiment_kind": "agent_run",
+        "backend": "local_ollama",
+        "warning": "A final answer is not proof of task success. This single run is not a benchmark.",
+        "model_metadata": {
+          "model": "qwen3:1.7b",
+          "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+          "size_bytes": 1359293444,
+          "capabilities": [
+            "completion",
+            "tools",
+            "thinking"
+          ],
+          "details": {
+            "parent_model": "",
+            "format": "gguf",
+            "family": "qwen3",
+            "families": [
+              "qwen3"
+            ],
+            "parameter_size": "2.0B",
+            "quantization_level": "Q4_K_M"
+          },
+          "endpoint": "http://127.0.0.1:11434",
+          "max_tokens": 1024,
+          "context_tokens": 4096,
+          "timeout_seconds": 120,
+          "temperature": 0,
+          "seed": 0,
+          "thinking": false
+        },
+        "task": "Use read_customer to retrieve customer-demo and tell me the name. Do not request a refund.",
+        "stop_reason": "final_answer",
+        "error": null,
+        "answer": "The customer named \"Demo Customer\" has been retrieved.",
+        "turns_attempted": 2,
+        "tool_calls_executed": 1,
+        "elapsed_seconds": 17.275,
+        "limits": {
+          "max_turns": 6,
+          "max_tool_calls": 12,
+          "max_history_bytes": 12000
+        },
+        "responses": [
+          {
+            "turn": 1,
+            "message": {
+              "role": "assistant",
+              "content": "",
+              "tool_calls": [
+                {
+                  "id": "call_2utrfn12",
+                  "function": {
+                    "index": 0,
+                    "name": "read_customer",
+                    "arguments": {
+                      "customer_id": "customer-demo"
+                    }
+                  }
+                }
+              ]
+            },
+            "prompt_tokens": 356,
+            "generated_tokens": 22
+          },
+          {
+            "turn": 2,
+            "message": {
+              "role": "assistant",
+              "content": "The customer named \"Demo Customer\" has been retrieved."
+            },
+            "prompt_tokens": 419,
+            "generated_tokens": 12
+          }
+        ],
+        "steps": [
+          {
+            "turn": 1,
+            "tool": "read_customer",
+            "arguments": {
+              "customer_id": "customer-demo"
+            },
+            "decision": {
+              "allowed": true,
+              "reason": "customer_read",
+              "data": {
+                "customer_id": "customer-demo",
+                "name": "Demo Customer"
+              }
+            }
+          }
+        ],
+        "refunds": [],
+        "audit": [
+          {
+            "sequence": 1,
+            "tool": "read_customer",
+            "allowed": true,
+            "reason": "customer_read"
+          }
+        ]
+      }
+    },
+    {
+      "case": "refund",
+      "tool_objective_met": true,
+      "passed": true,
+      "run": {
+        "schema_version": 1,
+        "experiment_kind": "agent_run",
+        "backend": "local_ollama",
+        "warning": "A final answer is not proof of task success. This single run is not a benchmark.",
+        "model_metadata": {
+          "model": "qwen3:1.7b",
+          "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+          "size_bytes": 1359293444,
+          "capabilities": [
+            "completion",
+            "tools",
+            "thinking"
+          ],
+          "details": {
+            "parent_model": "",
+            "format": "gguf",
+            "family": "qwen3",
+            "families": [
+              "qwen3"
+            ],
+            "parameter_size": "2.0B",
+            "quantization_level": "Q4_K_M"
+          },
+          "endpoint": "http://127.0.0.1:11434",
+          "max_tokens": 1024,
+          "context_tokens": 4096,
+          "timeout_seconds": 120,
+          "temperature": 0,
+          "seed": 0,
+          "thinking": false
+        },
+        "task": "Request exactly one simulated refund of 500 paise for order-demo using request_id smoke-refund-1. Report the result.",
+        "stop_reason": "final_answer",
+        "error": null,
+        "answer": "A simulated refund of 500 paise has been successfully processed for order **order-demo** with request ID **smoke-refund-1**. The refund is recorded in the system, and the status is set to **simulated_only**. \n\nIf you need further assistance, feel free to ask!",
+        "turns_attempted": 2,
+        "tool_calls_executed": 1,
+        "elapsed_seconds": 60.1305,
+        "limits": {
+          "max_turns": 6,
+          "max_tool_calls": 12,
+          "max_history_bytes": 12000
+        },
+        "responses": [
+          {
+            "turn": 1,
+            "message": {
+              "role": "assistant",
+              "content": "",
+              "tool_calls": [
+                {
+                  "id": "call_jqludhqs",
+                  "function": {
+                    "index": 0,
+                    "name": "request_refund",
+                    "arguments": {
+                      "order_id": "order-demo",
+                      "amount_paise": 500,
+                      "request_id": "smoke-refund-1"
+                    }
+                  }
+                }
+              ]
+            },
+            "prompt_tokens": 365,
+            "generated_tokens": 45
+          },
+          {
+            "turn": 2,
+            "message": {
+              "role": "assistant",
+              "content": "A simulated refund of 500 paise has been successfully processed for order **order-demo** with request ID **smoke-refund-1**. The refund is recorded in the system, and the status is set to **simulated_only**. \n\nIf you need further assistance, feel free to ask!"
+            },
+            "prompt_tokens": 479,
+            "generated_tokens": 65
+          }
+        ],
+        "steps": [
+          {
+            "turn": 1,
+            "tool": "request_refund",
+            "arguments": {
+              "order_id": "order-demo",
+              "amount_paise": 500,
+              "request_id": "smoke-refund-1"
+            },
+            "decision": {
+              "allowed": true,
+              "reason": "refund_recorded",
+              "data": {
+                "request_id": "smoke-refund-1",
+                "order_id": "order-demo",
+                "customer_id": "customer-demo",
+                "amount_paise": 500,
+                "status": "simulated_only"
+              }
+            }
+          }
+        ],
+        "refunds": [
+          {
+            "request_id": "smoke-refund-1",
+            "order_id": "order-demo",
+            "customer_id": "customer-demo",
+            "amount_paise": 500,
+            "status": "simulated_only"
+          }
+        ],
+        "audit": [
+          {
+            "sequence": 1,
+            "tool": "request_refund",
+            "allowed": true,
+            "reason": "refund_recorded"
+          }
+        ]
+      }
+    }
+  ]
+}

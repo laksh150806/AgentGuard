@@ -66,6 +66,12 @@ class LocalServerTests(unittest.TestCase):
         self.assertEqual(body["options"]["num_predict"], 512)
         self.assertEqual(body["options"]["temperature"], 0)
 
+    def test_thinking_disabled_only_when_model_advertises_it(self):
+        self.routes["/api/show"][1]["capabilities"].append("thinking")
+        self.client.chat([], [])
+        self.assertFalse(self.requests[-1][1]["think"])
+        self.assertFalse(self.client.metadata["thinking"])
+
     def test_missing_model_does_not_download_or_infer(self):
         self.routes["/api/tags"] = (200, {"models": []})
         with self.assertRaisesRegex(ModelError, "not installed"):

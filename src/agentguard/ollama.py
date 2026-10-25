@@ -95,8 +95,14 @@ class OllamaClient:
     def chat(self, messages: list[dict], tools: list[dict]) -> dict:
         if not self.metadata:
             self.preflight()
-        return self._request("/api/chat", {
+        payload = {
             "model": self.model, "messages": messages, "tools": tools, "stream": False,
             "options": {"temperature": 0, "seed": 0, "num_predict": self.max_tokens,
                         "num_ctx": self.context_tokens},
-        })
+        }
+        # Small thinking models can consume the entire generation budget before
+        # producing a tool call. Explicitly disable thinking when advertised.
+        if "thinking" in self.metadata["capabilities"]:
+            payload["think"] = False
+            self.metadata["thinking"] = False
+        return self._request("/api/chat", payload)

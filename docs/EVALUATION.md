@@ -13,8 +13,8 @@ timing excludes model inference and is not end-to-end agent latency.
 
 The optional `run` and `smoke` commands now support real local inference through
 Ollama. The latter checks three known tool objectives using executed results.
-Integration tests use synthetic model responses. Actual model validation is
-pending; there are no measured LLM results yet. `evaluate` now implements paired
+Integration tests use synthetic model responses. The first real local Qwen3 pilot
+has completed three smoke tasks and one paired custom scenario. `evaluate` now implements paired
 clean/poisoned comparisons including prompt-only and enforced conditions. See
 [COMPARISON.md](COMPARISON.md) for definitions and limitations.
 

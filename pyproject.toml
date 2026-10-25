@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agentguard-research"
-version = "0.3.0"
+version = "0.4.0"
 description = "Local-first tool authorization research for support agents"
 readme = "README.md"
 requires-python = ">=3.11"

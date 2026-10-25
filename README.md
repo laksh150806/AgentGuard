@@ -6,14 +6,18 @@ AgentGuard investigates how much unauthorized agent behavior can be prevented
 without blocking legitimate work, including when retrieved content changes
 during a session.
 
-**Current status: local-model integration implemented; real-model validation pending.**
+**Current status: first real local-model pilot completed, with mixed results.**
 This release has a synthetic support environment, enforcement engine, scripted
 experiments, an Ollama adapter, a bounded agent loop, and automated tests.
 The paired evaluation harness now implements a baseline, prompt-only defense,
-enforced permissions and an optional stricter policy. Dashboard and AgentDojo
-integration remain pending.
-No real model was installed in the development environment for this milestone.
-Automated tests use synthetic model responses; they are not AI benchmark results.
+enforced permissions and an optional stricter policy. The dashboard remains pending.
+AgentDojo integration now includes a separate, pinned single-pair pilot adapter (see
+[AGENTDOJO.md](docs/AGENTDOJO.md)); broader benchmark coverage remains pending.
+Qwen3 1.7B passed all three support smoke tasks. On one custom attack, all modes
+resisted it, so no defense advantage was shown. The AgentDojo pilot failed all
+six runs with zero tool calls; it provides no evidence of attack resistance.
+See [the measured pilot artifacts](reports/2026-10-25/) for results and limits.
+Automated unit tests use synthetic responses and remain separate from real model runs.
 
 ## Run for free
 
@@ -77,7 +81,7 @@ Omitting `--case` selects five development scenarios and makes 30 runs. Add
 `--include-strict` to explore utility lost under a lower refund cap. Save JSON
 reports in `artifacts/` and inspect both the summaries and individual traces.
 See [the comparison protocol](docs/COMPARISON.md) for metrics, budgets and limits.
-No real-model comparison results have been produced yet.
+Measured pilot results are recorded separately from the development unit tests.
 
 ## What the demo proves
 

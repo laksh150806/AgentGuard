@@ -2,7 +2,7 @@
 
 This is a small custom development suite, **not AgentDojo**, a held-out evaluation,
 or evidence of general injection resistance. Automated tests use synthetic model
-responses. Actual model evaluation is pending a suitable local installation.
+responses. The first real local-model pilot is recorded in reports/2026-10-25; it covers only the refund-small case.
 
 ## Conditions
 

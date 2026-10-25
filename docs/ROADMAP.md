@@ -25,17 +25,18 @@
 - [x] Bounded agent loop, tool traces and legitimate-task smoke checks.
 - [x] Paired clean/poisoned development evaluation with baseline, prompt-only,
   enforced and optional strict conditions; fixed outcome scoring and budget preview.
-- [ ] Actual model comparison results and public benchmark validation.
-- [ ] Real-model legitimate task validation (no Ollama/model installed in development workspace).
+- [x] Actual local-model pilot and pinned AgentDojo single-pair execution, with all outcomes published.
+- [ ] Public-benchmark clean-task competence: the initial small-model pilot failed utility in all six runs.
+- [x] Real-model legitimate task validation: Qwen3 1.7B passed all three smoke tasks on CPU.
 - [x] GitHub destination accessible and local origin configured.
 - [ ] Related-work review completed (links are a reading list, not a completed survey).
 
 ## Immediate next milestone
 
-Establish available laptop RAM/GPU and choose a free local model that can handle
-tool calls. The adapter, turn limit and history budget are implemented. Run the
-documented doctor and smoke commands, then establish legitimate task competence
-before investing in adversarial experiments.
+Diagnose why the small model calls tools on support tasks but not on the full
+AgentDojo banking schema. Validate clean-task competence with a documented prompt
+or model revision before expanding attacks. Retain the failed pilot alongside
+new results; do not tune on future held-out cases.
 
 No paid APIs, GPU rentals, hosted database or deployment subscription is needed
 for the current foundation. Check hackathon rules before reusing prebuilt work.

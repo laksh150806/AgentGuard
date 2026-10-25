@@ -1,0 +1,20 @@
+{
+  "python": "3.12.14",
+  "machine": "x86_64",
+  "ollama": "0.40.11",
+  "cloud_disabled": true,
+  "model": "qwen3:1.7b",
+  "source_sha256": {
+    "src/agentguard/ollama.py": "dcb6496c42934bf2fa63fa3c5bcf44300bb0d966538c62dc113811107eed4a86",
+    "src/agentguard/agent.py": "6a8f2fed9fceb0c74081b583116072922641bd95e566ea3d3a3abd7ae3862b95",
+    "src/agentguard/evaluation.py": "99d94e864ee0ceff7b66053568b7df88ba7ffb01b920d15b41fa0079f790a0a5",
+    "src/agentguard/agentdojo_bridge.py": "05aa056ec9c286ba0d95118014f695aa5835de40b2ca86c89fb7c13c2d2e199f"
+  },
+  "hardware": "CPU only; approximately 9.8 GiB RAM in managed workspace",
+  "commands": [
+    "python scripts/run.py smoke --model qwen3:1.7b --timeout 120 --max-tokens 1024",
+    "python scripts/run.py evaluate --model qwen3:1.7b --timeout 120 --max-tokens 512 --case refund-small",
+    "python scripts/run_agentdojo.py --model qwen3:1.7b --upstream /workspace/agentdojo-upstream --output artifacts/qwen3-agentdojo.json"
+  ],
+  "cpu_quota_cores": 2
+}
