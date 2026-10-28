@@ -2,10 +2,9 @@
 
 **Tool-boundary authorization research for AI support agents.**
 
-**[Open the deployed mobile demo →](https://agentguard-laksh-mobile.lakshnagori1508.chatgpt.site)**
+**[Open the deployed mobile demo →](https://agentguard-laksh.onrender.com)**
 
-Private access: sign in with the owner's ChatGPT account. No installation or
-model API key is needed. The demo shows a scripted policy replay and saved
+Public Render Static Site: no sign-in, installation or model API key is needed. The demo shows a scripted policy replay and saved
 real-model results; it does not run live AI inference.
 
 AgentGuard investigates how much unauthorized agent behavior can be prevented
@@ -38,7 +37,7 @@ python -m http.server 8000 --directory artifacts/mobile
 ```
 
 Open `http://localhost:8000` on the same computer. Static source lives in `web/`.
-The private hosted preview link is recorded in [MOBILE.md](docs/MOBILE.md).
+Render automatically redeploys updates to `main`. Hosting details are in [MOBILE.md](docs/MOBILE.md).
 
 ## Run for free
 
