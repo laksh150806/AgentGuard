@@ -26,6 +26,9 @@
 - [x] Paired clean/poisoned development evaluation with baseline, prompt-only,
   enforced and optional strict conditions; fixed outcome scoring and budget preview.
 - [x] Actual local-model pilot and pinned AgentDojo single-pair execution, with all outcomes published.
+- [x] Mobile static viewer: Python-generated policy replay, saved model results,
+  original JSON downloads and project explanation guide. See [MOBILE.md](MOBILE.md).
+- [ ] Live inference and live document ingestion in the demo interface (the current viewer is a recorded replay).
 - [ ] Public-benchmark clean-task competence: the initial small-model pilot failed utility in all six runs.
 - [x] Real-model legitimate task validation: Qwen3 1.7B passed all three smoke tasks on CPU.
 - [x] GitHub destination accessible and local origin configured.

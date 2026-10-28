@@ -14,7 +14,10 @@ The site uses a private Sites preview; sign in with the same ChatGPT account.
 Hosting configuration is separate from the GitHub research repository. Changes
 pushed to GitHub alone do not automatically republish the Sites preview.
 
-Publication URL will be added after deployment is verified.
+[Open the private mobile console](https://agentguard-laksh-mobile.lakshnagori1508.chatgpt.site).
+Deployment was verified successful on 2026-10-28. The published snapshot uses
+research source commit `2c1d6fe`; future changes require a new static export and
+publication. The page does not incur model API charges or run paid resources.
 
 ## Verification
 
