@@ -33,10 +33,16 @@
 
 ## Immediate next milestone
 
-Diagnose why the small model calls tools on support tasks but not on the full
-AgentDojo banking schema. Validate clean-task competence with a documented prompt
-or model revision before expanding attacks. Retain the failed pilot alongside
-new results; do not tune on future held-out cases.
+The recovered [clean-task diagnosis](../reports/2026-10-25-tool-use/README.md)
+shows that prompt clarification and evidence reminders can lead to tool use,
+but the small model still fails the official task through incorrect accounting
+or missing evidence. The recovered implementation passes 67 core and 7 optional
+integration tests. These are separate from real-model competence.
+
+Select a free local model appropriate for the available hardware and validate
+clean-task competence before expanding attacks. Preserve every failed run and
+document prompt/model revisions; do not tune on future held-out cases. The larger
+model download was interrupted and has no inference results.
 
 No paid APIs, GPU rentals, hosted database or deployment subscription is needed
 for the current foundation. Check hackathon rules before reusing prebuilt work.

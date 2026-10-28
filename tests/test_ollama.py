@@ -72,6 +72,15 @@ class LocalServerTests(unittest.TestCase):
         self.assertFalse(self.requests[-1][1]["think"])
         self.assertFalse(self.client.metadata["thinking"])
 
+    def test_explicit_cpu_threads_are_sent_and_recorded(self):
+        client = OllamaClient("test", port=self.server.server_port, num_threads=2)
+        client.chat([], [])
+        self.assertEqual(self.requests[-1][1]["options"]["num_thread"], 2)
+        self.assertEqual(client.metadata["num_threads"], 2)
+        for invalid in (0, 17, True, "2"):
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                OllamaClient("test", num_threads=invalid)
+
     def test_missing_model_does_not_download_or_infer(self):
         self.routes["/api/tags"] = (200, {"models": []})
         with self.assertRaisesRegex(ModelError, "not installed"):

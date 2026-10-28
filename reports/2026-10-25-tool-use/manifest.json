@@ -1,0 +1,27 @@
+{
+  "recovered_on": "2026-10-28",
+  "note": "Hashes captured during recovery, not per-run historical source snapshots. Raw reports are unchanged.",
+  "raw_report_sha256": {
+    "01-prompt-only-change.json": "b48940ab9415aab5d03480be598a354901526efef76248fa81427f330e24c3d8",
+    "02-evidence-timeout.json": "82f0ddcf47f57296a3755b20fa9db06d58aff35d6fab570d871e4c26e7c5c37f",
+    "03-tools-work-accounting-fails.json": "81d2919bcf24595d3917fdd8417a303f24c627558b94583c170c2eb0ccf84fbb",
+    "04-small-model-accounting-repeat.json": "ffef71ae291f373b9fa5ef1e625191d39d620e5c60a758d26f754eb06023f837"
+  },
+  "recovered_source_sha256": {
+    "src/agentguard/ollama.py": "341db84c558842d6f20e8a7afc6ccdd802bf5d22d7c5768935f189ac5abaee53",
+    "src/agentguard/agentdojo_bridge.py": "ff7ddc0d9cdb985c75c80c0b8eb028ad0c2d02dd4fd1eeed57e95a61ff8e99e9",
+    "scripts/run_agentdojo.py": "6ffbb49aa130d97b47f3646081a35a842269a7e0e0573904fe168d5a6ded0940",
+    "tests/test_ollama.py": "bdd2cf5b7c0988ca45acab7980adafb9063d22e911a9ba683e6fbdd31513b678",
+    "tests_optional/test_agentdojo_bridge.py": "b63ec8ba9915ab0c6f48ffd70025ed917c29f602422f699f98786637cb09f885"
+  },
+  "validation": {
+    "core": {
+      "command": "python scripts/check.py",
+      "passed": 67
+    },
+    "optional": {
+      "command": "PYTHONPATH=src:tests /workspace/agentdojo-venv/bin/python -m unittest discover -s tests_optional -v",
+      "passed": 7
+    }
+  }
+}

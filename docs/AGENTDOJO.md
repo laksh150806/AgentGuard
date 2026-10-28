@@ -54,9 +54,48 @@ PYTHONPATH=src:tests ../agentdojo-venv/bin/python -m unittest discover -s tests_
 
 ## Limits and interpretation
 
+### Diagnosing clean-task failures
+
+The original pilot is immutable in `reports/2026-10-25`. Follow-up development
+runs use explicit prompt profiles so a failed configuration is not silently
+replaced by a successful one:
+
+- `original`: the first pilot's banking prompt.
+- `simulation`: clarifies that records are fictional and tools provide actual
+  access, rather than asking the user to retrieve records elsewhere.
+- `accounting`: adds the general rule that spending is outgoing payments,
+  excluding incoming transfers, within the requested period. It contains no
+  benchmark answer, task-specific date, transaction amount or merchant.
+
+`--require-evidence` enables at most two host reminders if the model proposes
+a final answer before successfully retrieving recent transactions. The model
+still chooses its tools and arguments; the host never executes an action for
+it or supplies the result. Failure after reminders is `missing_evidence`.
+This is task-specific agent control logic, applied equally across compared
+defense modes, not a claim that the underlying model independently improved.
+
+For a two-CPU machine, a development validation command is:
+
+```bash
+../agentdojo-venv/bin/python scripts/run_agentdojo.py --model qwen3:1.7b --upstream ../agentdojo-upstream --output artifacts/accounting-clean.json --prompt-profile accounting --mode baseline --clean-only --require-evidence --timeout 300 --num-threads 2 --repeats 2
+```
+
+Specify repeated `--mode` options to select modes. Omit `--clean-only` only
+after clean competence is established. Fixed-seed repeats check execution
+consistency; they are not independent samples or confidence intervals.
+
+The runner saves an atomic checkpoint after every completed run, marks partial
+reports `complete: false`, and refuses to overwrite an existing output file.
+Its final report is not a substitute for checking `utility` and `stop_reason`.
+Prompt profiles are development revisions informed by the public task; results
+are not held-out evidence and cannot be directly compared to the original prompt
+as if all settings were unchanged.
+
 The pipeline permits at most 6 model turns and 12 tool calls, with an 8192-token
 configured context, 64000-byte history budget, 1024-token generation cap, and
-120-second socket timeout. Thinking is disabled for models advertising that
+120-second default socket timeout (overridable up to 300 seconds). CPU threads
+can be explicitly set with `--num-threads` and are recorded in metadata.
+Thinking is disabled for models advertising that
 capability. Limits and local inference differ from published experiments.
 
 If stopped early, the pipeline adds an explicit **host stop marker** so the

@@ -21,7 +21,7 @@ class OllamaClient:
     max_response_bytes = 2 * 1024 * 1024
 
     def __init__(self, model: str, *, port: int = 11434, timeout: int = 60,
-                 max_tokens: int = 512, context_tokens: int = 4096):
+                 max_tokens: int = 512, context_tokens: int = 4096, num_threads: int | None = None):
         if not isinstance(model, str) or not model.strip() or len(model) > 200:
             raise ValueError("Supply an installed local model name with --model")
         if "cloud" in model.casefold() or "://" in model:
@@ -35,6 +35,9 @@ class OllamaClient:
         self.timeout = timeout
         self.max_tokens = max_tokens
         self.context_tokens = context_tokens
+        if num_threads is not None and (type(num_threads) is not int or not 1 <= num_threads <= 16):
+            raise ValueError("num_threads must be an integer between 1 and 16")
+        self.num_threads = num_threads
         self.metadata: dict = {}
 
     def _request(self, path: str, payload: dict | None = None) -> dict:
@@ -90,6 +93,8 @@ class OllamaClient:
                          "details": details, "endpoint": f"http://127.0.0.1:{self.port}",
                          "max_tokens": self.max_tokens, "context_tokens": self.context_tokens,
                          "timeout_seconds": self.timeout, "temperature": 0, "seed": 0}
+        if self.num_threads is not None:
+            self.metadata["num_threads"] = self.num_threads
         return dict(self.metadata)
 
     def chat(self, messages: list[dict], tools: list[dict]) -> dict:
@@ -100,6 +105,8 @@ class OllamaClient:
             "options": {"temperature": 0, "seed": 0, "num_predict": self.max_tokens,
                         "num_ctx": self.context_tokens},
         }
+        if self.num_threads is not None:
+            payload["options"]["num_thread"] = self.num_threads
         # Small thinking models can consume the entire generation budget before
         # producing a tool call. Explicitly disable thinking when advertised.
         if "thinking" in self.metadata["capabilities"]:
