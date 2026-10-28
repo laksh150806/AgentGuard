@@ -2,6 +2,12 @@
 
 **Tool-boundary authorization research for AI support agents.**
 
+**[Open the deployed mobile demo →](https://agentguard-laksh-mobile.lakshnagori1508.chatgpt.site)**
+
+Private access: sign in with the owner's ChatGPT account. No installation or
+model API key is needed. The demo shows a scripted policy replay and saved
+real-model results; it does not run live AI inference.
+
 AgentGuard investigates how much unauthorized agent behavior can be prevented
 without blocking legitimate work, including when retrieved content changes
 during a session.
