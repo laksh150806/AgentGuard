@@ -10,7 +10,8 @@ during a session.
 This release has a synthetic support environment, enforcement engine, scripted
 experiments, an Ollama adapter, a bounded agent loop, and automated tests.
 The paired evaluation harness now implements a baseline, prompt-only defense,
-enforced permissions and an optional stricter policy. The dashboard remains pending.
+enforced permissions and an optional stricter policy. A mobile-friendly static
+viewer now provides a scripted replay, recorded results and an explanation guide.
 AgentDojo integration now includes a separate, pinned single-pair pilot adapter (see
 [AGENTDOJO.md](docs/AGENTDOJO.md)); broader benchmark coverage remains pending.
 Qwen3 1.7B passed all three support smoke tasks. On one custom attack, all modes
@@ -18,6 +19,20 @@ resisted it, so no defense advantage was shown. The AgentDojo pilot failed all
 six runs with zero tool calls; it provides no evidence of attack resistance.
 See [the measured pilot artifacts](reports/2026-10-25/) for results and limits.
 Automated unit tests use synthetic responses and remain separate from real model runs.
+
+## Mobile research console
+
+The viewer needs no model, API key or backend. It replays output from the Python
+policy engine and displays original saved experiment reports. It does not run
+live inference or enforce permissions in a production system.
+
+```bash
+python scripts/build_mobile.py
+python -m http.server 8000 --directory artifacts/mobile
+```
+
+Open `http://localhost:8000` on the same computer. Static source lives in `web/`.
+The private hosted preview link is recorded in [MOBILE.md](docs/MOBILE.md).
 
 ## Run for free
 
