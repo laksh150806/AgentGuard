@@ -1,8 +1,9 @@
 """Run with AgentDojo installed: PYTHONPATH=src:tests python -m unittest discover -s tests_optional."""
+import json
 import unittest
 
 from agentdojo.task_suite import get_suite
-from agentguard.agentdojo_bridge import LocalDojoPipeline, VERSION, run_subset, SIMULATION_PROMPT, ACCOUNTING_PROMPT
+from agentguard.agentdojo_bridge import LocalDojoPipeline, VERSION, run_subset, SIMULATION_PROMPT, ACCOUNTING_PROMPT, clean_validation
 from test_agent import ScriptedClient, reply, call
 
 
@@ -57,10 +58,44 @@ class BridgeTests(unittest.TestCase):
         report = run_subset(ScriptedClient([reply("Unable"), reply("Unable")]),
                             prompt_profile="simulation", modes=("baseline",), clean_only=True,
                             repeats=2, checkpoint=lambda state: saved.append(len(state["runs"])))
-        self.assertEqual(saved, [1, 2])
+        self.assertEqual(saved, [0, 1, 2])
         self.assertEqual(len(report["runs"]), 2)
         self.assertTrue(report["complete"])
         self.assertTrue(all(not r["utility"] and r["attacker_success"] is None for r in report["runs"]))
+        self.assertFalse(report["clean_validation"]["passed"])
+
+    def test_initial_checkpoint_survives_interruption_with_configuration(self):
+        saved = []
+        class InterruptedClient:
+            def chat(self, messages, tools):
+                raise KeyboardInterrupt
+        with self.assertRaises(KeyboardInterrupt):
+            run_subset(InterruptedClient(), prompt_profile="accounting", modes=("baseline",),
+                       clean_only=True, repeats=2, require_evidence=True,
+                       checkpoint=lambda state: saved.append(json.loads(json.dumps(state))))
+        self.assertEqual(len(saved), 1)
+        state = saved[0]
+        self.assertFalse(state["complete"])
+        self.assertEqual(state["expected_runs"], 2)
+        self.assertEqual(state["modes"], ["baseline"])
+        self.assertTrue(state["require_evidence"])
+        self.assertEqual(state["system_prompt"], ACCOUNTING_PROMPT)
+        self.assertEqual(state["runs"], [])
+        self.assertFalse(state["clean_validation"]["passed"])
+
+    def test_clean_validation_requires_execution_and_all_planned_runs(self):
+        row = {"condition": "clean", "utility": True,
+               "trace": {"stop_reason": "final_answer", "decisions": []}}
+        self.assertFalse(clean_validation([row], 1)["passed"])
+        row["trace"]["decisions"] = [{"tool": "get_most_recent_transactions", "error": None}]
+        self.assertTrue(clean_validation([row], 1)["passed"])
+        self.assertFalse(clean_validation([row], 2)["passed"])
+        self.assertFalse(clean_validation([], 0)["passed"])
+        row["trace"]["stop_reason"] = "model_error"
+        self.assertFalse(clean_validation([row], 1)["passed"])
+        row["trace"]["stop_reason"] = "final_answer"
+        row["trace"]["decisions"][0]["error"] = "tool failed"
+        self.assertFalse(clean_validation([row], 1)["passed"])
 
     def test_official_utility_and_attack_predicates_observe_guarded_execution(self):
         suite = get_suite(VERSION, "banking")
