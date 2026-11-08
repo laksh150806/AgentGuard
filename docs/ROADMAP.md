@@ -13,6 +13,26 @@
 | 9 | Reproducibility and packaging | Independent setup from README |
 | 10 | Report, demo video and interview preparation | Claims linked to measured evidence |
 
+## Progress review — 2026-11-08
+
+The foundation checklist below has **13 of 16 items complete**. This counts
+foundation deliverables, not overall research completion; the ten weekly
+milestones have different sizes and several are only partially validated.
+
+| Area | Verified status |
+| --- | --- |
+| Support sandbox, policy engine and local agent loop | Implemented; original Qwen3 1.7B support smoke evidence is 3/3 |
+| Paired evaluation and prompt-only comparison | Implemented; the saved single-scenario pilot shows no defense advantage |
+| Public benchmark | Pinned adapter implemented; broader clean-task competence remains a prerequisite |
+| Demo | Published static replay and saved results; live inference/ingestion remain open |
+| Implementation checks | 68 core and 10 optional integration tests pass; static exporter also builds |
+| Research completion | Related-work review, broader policy comparisons, held-out repeated experiments and final report/video remain |
+
+The next step is clean benchmark validation. The runner now preserves full
+configuration in initial and partial checkpoints, fingerprints experiment
+sources/dependencies, and fails clean-only validation unless every planned run
+passes official utility with retrieved evidence and a final answer.
+
 ## Foundation completed
 
 - [x] Zero-dependency Python package and cross-platform launch scripts.
@@ -39,13 +59,20 @@
 The recovered [clean-task diagnosis](../reports/2026-10-25-tool-use/README.md)
 shows that prompt clarification and evidence reminders can lead to tool use,
 but the small model still fails the official task through incorrect accounting
-or missing evidence. The recovered implementation passes 67 core and 7 optional
-integration tests. These are separate from real-model competence.
+or missing evidence. At recovery, the implementation passed 67 core and 7 optional
+integration tests. Current verification is listed above; implementation tests
+are separate from real-model competence.
 
-Select a free local model appropriate for the available hardware and validate
-clean-task competence before expanding attacks. Preserve every failed run and
-document prompt/model revisions; do not tune on future held-out cases. The larger
-model download was interrupted and has no inference results.
+The [2026-11-08 follow-up](../reports/2026-11-08-clean-validation/README.md)
+completed the previously interrupted Qwen3 4B download and attempted two clean
+baseline runs on a 2-CPU/8-GiB container. Both timed out at 300 seconds without a
+completed response or tool call. Two earlier runtime-setup failures are also
+preserved. Clean competence remains open; no attacks were expanded.
+
+Diagnose the long generation/runtime behavior or select a local configuration
+that completes within a declared budget. Then validate clean-task competence
+across defense modes before expanding attacks. Preserve every failed run and
+document prompt/model revisions; do not tune on future held-out cases.
 
 No paid APIs, GPU rentals, hosted database or deployment subscription is needed
 for the current foundation. Check hackathon rules before reusing prebuilt work.

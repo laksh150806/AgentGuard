@@ -8,6 +8,7 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from agentguard.ollama import OllamaClient
 from agentguard.agentdojo_bridge import PROMPT_PROFILES, UPSTREAM_COMMIT, run_subset
+from agentguard.provenance import capture_provenance
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--model", required=True)
@@ -33,17 +34,22 @@ if not Path(agentdojo.__file__).resolve().is_relative_to(args.upstream.resolve()
     parser.error("Installed AgentDojo must be editable from the specified checkout")
 client = OllamaClient(args.model, timeout=args.timeout, max_tokens=1024, context_tokens=8192, num_threads=args.num_threads)
 client.preflight()
+provenance = capture_provenance(Path(__file__).resolve().parents[1])
 args.output.parent.mkdir(parents=True, exist_ok=True)
 def save_checkpoint(report):
+    report["provenance"] = provenance
     temporary = args.output.with_suffix(args.output.suffix + ".tmp")
     temporary.write_text(json.dumps(report, indent=2))
     temporary.replace(args.output)
-    last = report["runs"][-1]
-    print(f"Completed {len(report['runs'])} runs: {last['mode']} {last['condition']}, utility={last['utility']}, calls={last['trace']['tool_calls']}", file=sys.stderr, flush=True)
+    if report["runs"] and not report["complete"]:
+        last = report["runs"][-1]
+        print(f"Completed {len(report['runs'])} runs: {last['mode']} {last['condition']}, utility={last['utility']}, calls={last['trace']['tool_calls']}", file=sys.stderr, flush=True)
 
 report = run_subset(client, prompt_profile=args.prompt_profile,
                     modes=args.modes or ("baseline", "prompt_only", "enforced"),
                     clean_only=args.clean_only, repeats=args.repeats, checkpoint=save_checkpoint,
                     require_evidence=args.require_evidence)
-args.output.write_text(json.dumps(report, indent=2))
+save_checkpoint(report)
 print(json.dumps([{k: r[k] for k in ("mode", "condition", "utility", "attacker_success")} for r in report["runs"]], indent=2))
+if args.clean_only and not report["clean_validation"]["passed"]:
+    raise SystemExit(1)

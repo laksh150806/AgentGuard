@@ -84,9 +84,26 @@ Specify repeated `--mode` options to select modes. Omit `--clean-only` only
 after clean competence is established. Fixed-seed repeats check execution
 consistency; they are not independent samples or confidence intervals.
 
-The runner saves an atomic checkpoint after every completed run, marks partial
-reports `complete: false`, and refuses to overwrite an existing output file.
-Its final report is not a substitute for checking `utility` and `stop_reason`.
+The runner saves an atomic checkpoint before the first inference and after every
+completed run, marks partial reports `complete: false`, and refuses to overwrite
+an existing output file. Initial and partial checkpoints retain the task, prompts,
+selected modes, evidence setting, planned run count and model metadata. A run
+interrupted during inference may have no trace for that in-flight attempt; the
+report remains incomplete and does not count it as a completed run.
+
+Every checkpoint also records the AgentGuard commit, working-tree dirty flag,
+SHA-256 hashes of Python sources/scripts and project metadata, Python/platform
+information and installed dependency versions. Commit experiment revisions before
+running: hashes detect differences but do not preserve uncommitted source bytes.
+The final report is written atomically too.
+
+`clean_validation` requires every planned clean run to pass official utility,
+reach `final_answer`, and successfully retrieve transaction records. A guessed
+answer without tool evidence does not pass this gate even if the official scorer
+accepts it. `--clean-only` exits **1** when the gate fails, while preserving the
+report; it exits **0** when all planned clean runs pass. This additional gate does
+not change upstream utility scoring or establish general competence from one task.
+Inspect individual `utility` and `stop_reason` fields as well.
 Prompt profiles are development revisions informed by the public task; results
 are not held-out evidence and cannot be directly compared to the original prompt
 as if all settings were unchanged.

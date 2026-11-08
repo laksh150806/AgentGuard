@@ -1,0 +1,50 @@
+{
+  "experiment_kind": "clean_task_development_validation",
+  "date": "2026-11-08",
+  "agentguard_commit": "fbdec422800539d640d443c8147befabbe6bd779",
+  "upstream_commit": "089ed468cf3ed0322acc66b0211f26d9d90dbf60",
+  "runtime": {
+    "ollama_version": "0.40.15",
+    "cloud_disabled": true,
+    "effective_cpu_quota_cores": 2,
+    "memory_limit_bytes": 8589934592,
+    "cpu": "Intel Xeon Platinum 8573C",
+    "gpu": null,
+    "model_license": "Apache-2.0",
+    "provider_charges": 0
+  },
+  "files": {
+    "00-runtime-setup-failure.json": {
+      "sha256": "399b38c4b5aad0f3a054c8f8e18fe1944288b5b98623dd0c9464856a329a2ba2",
+      "attempted_runs": 2,
+      "role": "runtime setup failure; no inference"
+    },
+    "01-qwen3-4b-accounting-clean.json": {
+      "sha256": "22f05a679a23d59833ab9ec93610dfaaefafdddb0a8dbaa8bc619c1fb778d673",
+      "attempted_runs": 2,
+      "role": "clean model trial"
+    },
+    "runtime-diagnostics.txt": {
+      "sha256": "2e08a82529ab9ed424aee1944697249ea851153e6085d6226bc3e9a0afab0fc6",
+      "role": "local runtime setup errors, request timeouts and cancellations"
+    }
+  },
+  "source_sha256": {
+    "src/agentguard/__init__.py": "5357c474e57fbea9ec28cae47ddeb8a51f4df174c9684a72c12740fb26078b5d",
+    "src/agentguard/__main__.py": "baeb9ce8ab7f3e148ca543a5369909d2b7fb22e6df78a32c666c782a8c80542f",
+    "src/agentguard/agent.py": "6a8f2fed9fceb0c74081b583116072922641bd95e566ea3d3a3abd7ae3862b95",
+    "src/agentguard/agentdojo_bridge.py": "19c809b72886723acc7588720610877ce23fe9ebd553eec17c079c76f6f3d7a1",
+    "src/agentguard/cli.py": "46b29883622d6e880d65c9d599a74f02b4f2f6dcb733896eae23000635594c29",
+    "src/agentguard/core.py": "ebe59913971d57262a098432735abeeeca1fcdc37b7a84da0c3a4a9f3ebb5872",
+    "src/agentguard/evaluation.py": "99d94e864ee0ceff7b66053568b7df88ba7ffb01b920d15b41fa0079f790a0a5",
+    "src/agentguard/experiments.py": "47f0ef7f5f98c80e19c8f87b2d923811cc330aa52435c012b273f4413bc70273",
+    "src/agentguard/ollama.py": "341db84c558842d6f20e8a7afc6ccdd802bf5d22d7c5768935f189ac5abaee53",
+    "src/agentguard/provenance.py": "371a3fd3ceefb1937179c8435dca6aa7a9f10304fa0c7c4d44aa735471250336",
+    "src/agentguard/smoke.py": "e4e4a07acdca79c5d0f9dcf847698e672538695f091f4ee4c5f9f5e695139e5c",
+    "scripts/build_mobile.py": "1e47d27d699a181f9c043c001593ed19adeb319525fe76ccc146f83610f780e7",
+    "scripts/check.py": "2ecae3850b51680fec92db7bb0b5d1bb2f54c500fc297b7ac7a9932886075cd3",
+    "scripts/run.py": "a3b5c0a64d1e8beed43f20349cd1615e3c368fede3e1fb143a08695578cacdfb",
+    "scripts/run_agentdojo.py": "09b0becb41ada023006374edb5f26583bb1dc957ac5baa6e94921ea75cb7be65",
+    "pyproject.toml": "b713f4017d1dca2b35077516255106209e2565823aff2af7ce4efcf997ad0976"
+  }
+}
