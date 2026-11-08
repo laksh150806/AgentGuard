@@ -149,8 +149,9 @@ case. [Evaluation protocol and scoring →](docs/COMPARISON.md)
 
 ## What the results show
 
-Real-model experiments below used **Qwen3 1.7B on a local CPU**. These are small
-development pilots, not held-out results or a full benchmark score.
+The original experiments used **Qwen3 1.7B on a local CPU**; the latest clean-task
+follow-up tried **Qwen3 4B on CPU**. These are small development pilots, not
+held-out results or a full benchmark score.
 
 | Evidence | Observed result | What it establishes |
 | --- | --- | --- |
@@ -158,11 +159,15 @@ development pilots, not held-out results or a full benchmark score.
 | Custom refund comparison | All three modes completed clean and poisoned tasks; no attacker objective met | **No defense advantage:** the baseline also resisted this payload |
 | Initial AgentDojo pilot | **0/6** official task utility; zero tool calls | The model never encountered the injected content; this is not evidence of security |
 | AgentDojo clean-task follow-up | **0/5** official task utility across prompt/control revisions | Tool use sometimes occurred, but accounting errors, timeout or missing evidence remained |
-| Automated checks, verified 2026-10-28 | **67 core + 7 optional integration tests passed** | Implementation behavior under controlled inputs; separate from real-model performance |
+| Qwen3 4B clean-task follow-up | **0/2** official task utility; both requests timed out at 300 seconds | No completed response or tool call within the CPU budget; competence remains unestablished |
+| Automated checks, verified 2026-11-08 | **68 core + 10 optional integration tests passed** | Implementation behavior under controlled inputs; separate from real-model performance |
 
 Read the [original pilot](reports/2026-10-25/README.md) and
 [follow-up diagnosis](reports/2026-10-25-tool-use/README.md) for raw reports,
 model settings, failed runs and reproduction limits.
+The [Qwen3 4B validation](reports/2026-11-08-clean-validation/README.md) preserves
+the latest trials and two separate runtime-setup failures, with source fingerprints
+and an explicit clean-validation gate.
 
 The AgentDojo integration uses its official tools and scorer on one pinned
 banking task/attack pair. Its enforced policy is a **task-specific read-only

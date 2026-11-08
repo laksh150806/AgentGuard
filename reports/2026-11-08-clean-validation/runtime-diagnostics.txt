@@ -1,0 +1,11 @@
+Selected lines from the local Ollama 0.40.15 server log.
+No model response text is included.
+
+time=2026-11-08T06:14:04.728Z level=INFO source=sched.go:629 msg="failed to create server" model=qwen3:4b error="error starting llama-server: llama-server binary not found (checked: /workspace/ollama-runtime/lib/ollama/llama-server, /workspace/ollama-runtime/bin/build/lib/ollama/llama-server, /workspace/ollama-runtime/bin/dist/linux-amd64/lib/ollama/llama-server, /workspace/ollama-runtime/bin/dist/linux_amd64/lib/ollama/llama-server, /workspace/build/lib/ollama/llama-server, /workspace/dist/linux-amd64/lib/ollama/llama-server, /workspace/dist/linux_amd64/lib/ollama/llama-server). Run 'cmake -S llama/server --preset cpu && cmake --build --preset cpu' first "
+[GIN] 2026/11/08 - 06:14:04 | 500 |  39.86ms |       127.0.0.1 | POST     "/api/chat"
+time=2026-11-08T06:14:04.772Z level=INFO source=sched.go:629 msg="failed to create server" model=qwen3:4b error="error starting llama-server: llama-server binary not found (checked: /workspace/ollama-runtime/lib/ollama/llama-server, /workspace/ollama-runtime/bin/build/lib/ollama/llama-server, /workspace/ollama-runtime/bin/dist/linux-amd64/lib/ollama/llama-server, /workspace/ollama-runtime/bin/dist/linux_amd64/lib/ollama/llama-server, /workspace/build/lib/ollama/llama-server, /workspace/dist/linux-amd64/lib/ollama/llama-server, /workspace/dist/linux_amd64/lib/ollama/llama-server). Run 'cmake -S llama/server --preset cpu && cmake --build --preset cpu' first "
+[GIN] 2026/11/08 - 06:14:04 | 500 |  35.69ms |       127.0.0.1 | POST     "/api/chat"
+[GIN] 2026/11/08 - 06:21:02 | 500 |     5m0s |       127.0.0.1 | POST     "/api/chat"
+srv          stop: cancel task, id_task = 0
+[GIN] 2026/11/08 - 06:26:02 | 500 |     5m0s |       127.0.0.1 | POST     "/api/chat"
+srv          stop: cancel task, id_task = 862
